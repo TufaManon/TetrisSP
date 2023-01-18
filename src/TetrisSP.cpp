@@ -2,18 +2,13 @@
 //
 
 #include "TetrisSP.h"
+#include "game.h"
 
 using namespace std;
 
 int main(int flagc, char* flags[])
 {
-	try
-	{
-		Game::GetGame()->Run();
-	}
-	catch(const GameError& e)
-	{
-		e.PrintError();
-	}
+	Game::GetGame()->Run();
+
 	return 0;
 } 

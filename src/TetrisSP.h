@@ -4,5 +4,4 @@
 #pragma once
 
 #include <iostream>
-#include "game.h"
 #undef main

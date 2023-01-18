@@ -3,20 +3,25 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("TetrisSP")
-add_subdirectory("game")
+project ("TetrisSP" VERSION 0.1)
+
+list(APPEND SRC_LIST "src/TetrisSP.cpp" "src/TetrisSP.h")
 
 # 将源代码添加到此项目的可执行文件。
-add_executable (TetrisSP "TetrisSP.cpp" "TetrisSP.h")
-target_link_libraries(TetrisSP PRIVATE game)
+add_executable (TetrisSP ${SRC_LIST})
 
-include("cmake/sdl.cmake")
+# 设置c++标准
+set_property(TARGET TetrisSP PROPERTY CXX_STANDARD 17)
 
-add_sdl_dependences(TetrisSP)
+add_subdirectory(view)
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET TetrisSP PROPERTY CXX_STANDARD 20)
-endif()
+add_subdirectory(controller)
+
+add_subdirectory(game)
+
+include(cmake/sdl.cmake)
+
+target_link_libraries(TetrisSP TetrisSP-Game)
 
 # copy the resources
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME}
