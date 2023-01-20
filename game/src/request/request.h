@@ -13,33 +13,30 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by Tufa Manon on 2023/1/19.
 //
 
-#include "game.h"
+#ifndef TETRIS_SP_GAME_SRC_REQUEST_REQUEST_H_
+#define TETRIS_SP_GAME_SRC_REQUEST_REQUEST_H_
+#include <cstdint>
 
-#include <SDL.h>
+namespace tetris_sp::game::request {
 
-#include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
+struct UISwitchRequest {
+  uint32_t type;
+  uint64_t timestamp;
+  bool result;
+};
 
-namespace tetris_sp {
-namespace game {
+union Request {
+  uint32_t type;
+  UISwitchRequest ui_switch_request;
+};
 
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
-  }
-}
-}  // namespace game
-}  // namespace tetris_sp
+enum RequestType {
+  UI_SWITCH_REQUEST,
+};
+
+} // response
+
+#endif //TETRIS_SP_GAME_SRC_REQUEST_REQUEST_H_

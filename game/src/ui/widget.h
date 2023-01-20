@@ -13,33 +13,23 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by TUfa Manon. on 2023/1/19.
 //
 
-#include "game.h"
-
+#ifndef TETRIS_SP_SRC_GAME_UI_WIDGET_H_
+#define TETRIS_SP_SRC_GAME_UI_WIDGET_H_
 #include <SDL.h>
 
-#include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
+namespace tetris_sp::game::ui {
 
-namespace tetris_sp {
-namespace game {
+class Widget {
 
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
-  }
-}
-}  // namespace game
-}  // namespace tetris_sp
+ public:
+  virtual ~Widget() = default;
+  virtual void Render() = 0;
+  virtual void HandleInput(SDL_Event &event) = 0;
+};
+
+} // ui
+
+#endif //TETRIS_SP_SRC_GAME_UI_WIDGET_H_

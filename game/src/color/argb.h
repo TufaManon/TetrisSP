@@ -13,33 +13,29 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by wwwfl on 2023/1/19.
 //
 
-#include "game.h"
+#ifndef TETRISSP_GAME_SRC_COLOR_ARGB_H_
+#define TETRISSP_GAME_SRC_COLOR_ARGB_H_
 
+#include <cstdint>
+#include <string>
+#include <minmax.h>
 #include <SDL.h>
 
-#include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
+namespace tetris_sp::game::color {
 
-namespace tetris_sp {
-namespace game {
+class ARGB {
+ public:
+  uint8_t red_, greed_, blue_, alpha_;
+  explicit ARGB();
+  explicit ARGB(std::string hex_str, uint8_t alpha = 255);
+  SDL_Color SDLFul();
+ private:
+  static double ToPercentage(uint8_t ui8);
+};
 
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
-  }
-}
-}  // namespace game
-}  // namespace tetris_sp
+} // color
+
+#endif //TETRISSP_GAME_SRC_COLOR_ARGB_H_

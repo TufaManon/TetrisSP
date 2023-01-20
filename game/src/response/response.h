@@ -13,33 +13,33 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by wwwfl on 2023/1/19.
 //
 
-#include "game.h"
-
-#include <SDL.h>
-
-#include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
+#ifndef TETRIS_SP_SRC_GAME_RESPONSE_RESPONSE_H_
+#define TETRIS_SP_SRC_GAME_RESPONSE_RESPONSE_H_
+#include <stdint.h>
 
 namespace tetris_sp {
 namespace game {
+namespace response {
 
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
-  }
-}
-}  // namespace game
-}  // namespace tetris_sp
+struct UISwitchResponse {
+  uint32_t type;
+  uint64_t timestamp;
+  uint32_t ui_id;
+};
+
+union Response {
+  unsigned int type;
+  UISwitchResponse ui_switch_response;
+};
+
+enum ResponseType {
+  UI_SWITCH_RESPONSE,
+};
+} // tetris_sp
+} // game
+} // response
+
+#endif //_RESPONSE_H_

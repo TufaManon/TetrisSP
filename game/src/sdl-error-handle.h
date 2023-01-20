@@ -13,33 +13,23 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by wwwfl on 2023/1/19.
 //
 
-#include "game.h"
-
+#ifndef TETRISSP_GAME_SRC_SDL_ERROR_HANDLE_H_
+#define TETRISSP_GAME_SRC_SDL_ERROR_HANDLE_H_
+#include <ctime>
 #include <SDL.h>
-
-#include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
-
-namespace tetris_sp {
-namespace game {
-
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
-  }
+namespace tetris_sp::game::sdl_error_handle {
+void LogErrorAndAbort(const char *message) {
+  tm s_time{};
+  time_t t = time(nullptr);
+  localtime_s(&s_time, &t);
+  char tmp[32] = {0};
+  strftime(tmp, sizeof tmp, "%Y-%m-%d_%H:%M:%S", &s_time);
+  SDL_Log("{%s} %s, the sdl error message: %s", tmp, message, SDL_GetError());
+  abort();
 }
-}  // namespace game
-}  // namespace tetris_sp
+}
+
+#endif //TETRISSP_GAME_SRC_SDL_ERROR_HANDLE_H_

@@ -13,33 +13,16 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by wwwfl on 2023/1/19.
 //
 
-#include "game.h"
+#include "standard-game-ui.h"
 
-#include <SDL.h>
+namespace tetris_sp::game::game_ui {
+void StandardGameUI::HandleInput(SDL_Event &event) {
 
-#include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
-
-namespace tetris_sp {
-namespace game {
-
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
-  }
 }
-}  // namespace game
-}  // namespace tetris_sp
+void StandardGameUI::ResetStatus() {
+
+}
+} // game_ui

@@ -13,33 +13,25 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by Tufa Manon on 2023/1/19.
 //
 
-#include "game.h"
-
+#ifndef TETRISSP_INDEX_UI_H
+#define TETRISSP_INDEX_UI_H
 #include <SDL.h>
+#include <SDL_ttf.h>
+#include "ui/ui.h"
 
-#include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
+namespace tetris_sp::game::ui::index_ui {
 
-namespace tetris_sp {
-namespace game {
+class IndexUI : public UI {
+ public:
+  explicit IndexUI();
+  ~IndexUI() override;
+  void HandleInput(SDL_Event &event) override;
+  void ResetStatus() override;
+};
 
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
-  }
-}
-}  // namespace game
-}  // namespace tetris_sp
+} // index_ui
+
+#endif //TETRISSP_INDEX_UI_H

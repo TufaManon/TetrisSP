@@ -13,33 +13,33 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by Tufa Manon on 2023/1/19.
 //
 
-#include "game.h"
-
-#include <SDL.h>
-
+#include "index-ui.h"
+#include "selection-bar.h"
 #include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
 
-namespace tetris_sp {
-namespace game {
-
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
+namespace tetris_sp::game::ui::index_ui {
+void IndexUI::HandleInput(SDL_Event &event) {
+  for (const auto &widget : widgets_) {
+    widget->HandleInput(event);
   }
 }
-}  // namespace game
-}  // namespace tetris_sp
+void IndexUI::ResetStatus() {
+
+}
+IndexUI::IndexUI() {
+  constexpr SDL_Rect sdl_rect{600, 300, 400, 300};
+  auto *solo_bar = new SelectionBar("solo", sdl_rect);
+  solo_bar->OnClick([]() -> void {
+    SDL_Log("click solo");
+  });
+  widgets_.push_back(solo_bar);
+}
+IndexUI::~IndexUI() {
+  for (const auto &item : widgets_) {
+    delete item;
+  }
+}
+} // index_ui

@@ -5,17 +5,11 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("TetrisSP" VERSION 0.1)
 
-list(APPEND SRC_LIST "src/TetrisSP.cpp" "src/TetrisSP.h")
-
 # 将源代码添加到此项目的可执行文件。
-add_executable (TetrisSP ${SRC_LIST})
+add_executable(TetrisSP ${SRC_LIST} "src/tetris-sp.cpp")
 
 # 设置c++标准
 set_property(TARGET TetrisSP PROPERTY CXX_STANDARD 17)
-
-add_subdirectory(view)
-
-add_subdirectory(controller)
 
 add_subdirectory(game)
 

@@ -13,33 +13,25 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by TufaManon on 2023/1/19.
 //
 
-#include "game.h"
-
+#ifndef TETRISSP_GAME_SRC_UI_GAME_UI_MATRIX_H_
+#define TETRISSP_GAME_SRC_UI_GAME_UI_MATRIX_H_
 #include <SDL.h>
+#include "ui/widget.h"
+namespace tetris_sp::game::game_ui {
 
-#include "resource-manager.h"
-#include "ui/controller/ui-controller.h"
+class Matrix : public ui::Widget {
+ public:
+  explicit Matrix(int cell_size);
+  ~Matrix() override;
+  void Render() override;
+  void HandleInput(SDL_Event &event) override;
+ private:
+  SDL_Texture *back_board_;
+  unsigned int cell_size_;
+};
+} // game_ui
 
-namespace tetris_sp {
-namespace game {
-
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
-    }
-    controller.Render();
-  }
-}
-}  // namespace game
-}  // namespace tetris_sp
+#endif //TETRISSP_GAME_SRC_UI_GAME_UI_MATRIX_H_
