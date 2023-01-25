@@ -18,28 +18,38 @@
 
 #ifndef TETRIS_SP_SRC_GAME_RESPONSE_RESPONSE_H_
 #define TETRIS_SP_SRC_GAME_RESPONSE_RESPONSE_H_
-#include <stdint.h>
+#include <cstdint>
+#include <list>
+#include "utils/point.h"
+#include "tetrimino/mino.h"
+#include "tetrimino/tetrimino.h"
 
-namespace tetris_sp {
-namespace game {
-namespace response {
-
+namespace tetris_sp::game::response {
+enum ResponseType {
+  UI_SWITCH_RESPONSE,
+  MATRIX_RENDER_RESPONSE,
+};
 struct UISwitchResponse {
-  uint32_t type;
+  ResponseType type;
   uint64_t timestamp;
   uint32_t ui_id;
 };
 
-union Response {
-  unsigned int type;
-  UISwitchResponse ui_switch_response;
+struct MatrixRenderResponse {
+  ResponseType type;
+  tetrimino::Mino *(*lock_map_)[10];
+  std::list<tetrimino::Tetrimino *> *next_queue_;
+  tetrimino::Tetrimino *activity_tetrimino_;
+  tetrimino::Tetrimino *held_tetrimino_;
+  int ghost_off;
 };
 
-enum ResponseType {
-  UI_SWITCH_RESPONSE,
+union Response {
+  ResponseType type;
+  UISwitchResponse ui_switch_response;
+  MatrixRenderResponse matrix_render_response;
 };
-} // tetris_sp
-} // game
+
 } // response
 
-#endif //_RESPONSE_H_
+#endif //TETRIS_SP_SRC_GAME_RESPONSE_RESPONSE_H_

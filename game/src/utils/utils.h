@@ -13,18 +13,14 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by Tufa Manon on 2023/1/23.
 //
 
-#ifndef TETRIS_SP_SRC_GAME_GAME_H_
-#define TETRIS_SP_SRC_GAME_GAME_H_
-#include <cinttypes>
-namespace tetris_sp::game {
-class Game {
- private:
-  static uint64_t current_time_;
- public:
-  static void Begin();
-};
-}
-#endif //TETRIS_SP_SRC_GAME_GAME_H_
+#ifndef TETRISSP_GAME_SRC_UTILS_UTILS_H_
+#define TETRISSP_GAME_SRC_UTILS_UTILS_H_
+
+namespace tetris_sp::game::utils {
+
+} // utils
+
+#endif //TETRISSP_GAME_SRC_UTILS_UTILS_H_

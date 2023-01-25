@@ -27,22 +27,11 @@
 #include "response/response.h"
 #include "widget.h"
 namespace tetris_sp::game::ui {
-class UI {
+class UI : public Widget {
  public:
-  using RequestSender = std::function<response::Response(request::Request)>;
-  virtual ~UI() = default;
-  virtual void HandleInput(SDL_Event &event) = 0;
-  virtual void Render() {
-    for (const auto widget : widgets_) {
-      widget->Render();
-    }
-  }
-  void SetRequestSender(const RequestSender &sender) { sender_ = sender; };
+  using RequestSender = std::function<response::Response *(const request::Request &)>;
+  virtual void SetRequestSender(const RequestSender &sender) = 0;
   virtual void ResetStatus() = 0;
-
- protected:
-  std::vector<Widget *> widgets_;
-  RequestSender sender_;
 };
 
 }  // namespace tetris_sp

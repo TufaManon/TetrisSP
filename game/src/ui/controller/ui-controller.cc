@@ -17,24 +17,53 @@
 //
 
 #include "ui-controller.h"
-
+#include "ui/index-ui/index-ui.h"
+#include "ui/game-ui/standard-game-ui.h"
 #include "resource-manager.h"
+#include "server/single-game-service.h"
 
 namespace tetris_sp::game::ui::controller {
-void UIController::SetTarget(UI *ui) { ui_ = ui; }
-void UIController::HandleInput(SDL_Event &event) { ui_->HandleInput(event); }
-UIController::UIController() : ui_(nullptr) {
-  index_ui_.SetRequestSender(
-      [](request::Request request_1) -> response::Response {
-        return {};
-      });
-  SetTarget(&index_ui_);
-}
-void UIController::Render() {
+
+void UIController::Render() const {
   SDL_Renderer *renderer = ResourceManager::renderer_;
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
   ui_->Render();
   SDL_RenderPresent(renderer);
+}
+void UIController::HandleInput(SDL_Event &event) {
+  if (ui_ != nullptr)
+    ui_->HandleInput(event);
+  if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+    if (server_ != nullptr)
+      server_->HandleInput(event);
+  }
+}
+UIController::UIController() : ui_(), index_(), solo_(), server_(nullptr) {
+  single_game_response = new response::Response();
+  index_ = new index_ui::IndexUI();
+  solo_ = new game_ui::StandardGameUI();
+  index_->SetRequestSender([this](const request::Request &req) -> response::Response * {
+    if (req.ui_switch_request.reset) solo_->ResetStatus();
+    ui_ = solo_;
+    server_ = new server::SingleGameService();
+    return nullptr;
+  });
+  solo_->SetRequestSender([this](const request::Request &req) -> response::Response * {
+    *single_game_response = server_->HandleRequest(req);
+    return single_game_response;
+  });
+  ui_ = index_;
+}
+void UIController::Update(uint64_t delay) {
+  if (ui_ != nullptr)
+    ui_->Update(delay);
+  if (server_ != nullptr)
+    server_->Update(delay);
+}
+UIController::~UIController() {
+  delete index_;
+  delete solo_;
+  delete single_game_response;
 }
 }  // namespace tetris_sp

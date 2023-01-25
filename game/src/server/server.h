@@ -13,18 +13,25 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by Tufa Manon on 2023/1/22.
 //
 
-#ifndef TETRIS_SP_SRC_GAME_GAME_H_
-#define TETRIS_SP_SRC_GAME_GAME_H_
+#ifndef TETRISSP_GAME_SRC_SERVER_SINGLE_GAME_SERVICE_CC_SERVER_H_
+#define TETRISSP_GAME_SRC_SERVER_SINGLE_GAME_SERVICE_CC_SERVER_H_
+
+#include <response/response.h>
+#include <request/request.h>
+#include <SDL.h>
 #include <cinttypes>
-namespace tetris_sp::game {
-class Game {
- private:
-  static uint64_t current_time_;
+namespace tetris_sp::game::server {
+
+class Server {
  public:
-  static void Begin();
+  virtual void Update(uint64_t delay) = 0;
+  virtual void HandleInput(SDL_Event &event) = 0;
+  virtual response::Response HandleRequest(const request::Request &req) = 0;
 };
-}
-#endif //TETRIS_SP_SRC_GAME_GAME_H_
+
+} // server
+
+#endif //TETRISSP_GAME_SRC_SERVER_SINGLE_GAME_SERVICE_CC_SERVER_H_

@@ -13,18 +13,25 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by Tufa Manon on 2023/1/22.
 //
 
-#ifndef TETRIS_SP_SRC_GAME_GAME_H_
-#define TETRIS_SP_SRC_GAME_GAME_H_
-#include <cinttypes>
-namespace tetris_sp::game {
-class Game {
- private:
-  static uint64_t current_time_;
+#ifndef TETRISSP_GAME_SRC_TETRIMINO_SEVEN_BAG_GENERATOR_H_
+#define TETRISSP_GAME_SRC_TETRIMINO_SEVEN_BAG_GENERATOR_H_
+#include "tetrimino.h"
+#include "generator.h"
+
+namespace tetris_sp::game::tetrimino {
+
+class SevenBagGenerator : public Generator {
  public:
-  static void Begin();
+  explicit SevenBagGenerator();
+  Type GetType() override;
+  void Shuffle();
+  int top;
+  Type types_[7];
 };
-}
-#endif //TETRIS_SP_SRC_GAME_GAME_H_
+
+} // tetrimino
+
+#endif //TETRISSP_GAME_SRC_TETRIMINO_SEVEN_BAG_GENERATOR_H_

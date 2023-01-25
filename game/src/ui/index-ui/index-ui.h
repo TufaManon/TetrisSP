@@ -18,18 +18,13 @@
 
 #ifndef TETRISSP_INDEX_UI_H
 #define TETRISSP_INDEX_UI_H
-#include <SDL.h>
-#include <SDL_ttf.h>
-#include "ui/ui.h"
+#include "ui/simple-ui.h"
 
 namespace tetris_sp::game::ui::index_ui {
 
-class IndexUI : public UI {
+class IndexUI : public SimpleUI {
  public:
   explicit IndexUI();
-  ~IndexUI() override;
-  void HandleInput(SDL_Event &event) override;
-  void ResetStatus() override;
 };
 
 } // index_ui

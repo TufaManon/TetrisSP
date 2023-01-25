@@ -18,19 +18,34 @@
 
 #ifndef TETRISSP_GAME_SRC_UI_GAME_UI_MATRIX_H_
 #define TETRISSP_GAME_SRC_UI_GAME_UI_MATRIX_H_
+#include <vector>
+#include <array>
 #include <SDL.h>
 #include "ui/widget.h"
+#include "sdl/texture.h"
+#include "tetrimino/mino.h"
+#include "response/response.h"
 namespace tetris_sp::game::game_ui {
 
 class Matrix : public ui::Widget {
  public:
   explicit Matrix(int cell_size);
   ~Matrix() override;
-  void Render() override;
+  void Render() const override;
   void HandleInput(SDL_Event &event) override;
+  void Update(uint64_t delay) override;
+  void AddTrack(tetrimino::Color color, int x);
+  void DestroyLineEffect(int line_num, const std::array<tetrimino::Color, 10> &colors);
+  response::MatrixRenderResponse matrix_render_response_{};
+  int x_, y_;
  private:
-  SDL_Texture *back_board_;
-  unsigned int cell_size_;
+  void DrawMino() const;
+  void InitMinoTextures();
+  void InitFrame();
+  SDL_Texture *back_img_;
+  sdl::Texture *minos_[7];
+  sdl::Texture *frame_;
+  int cell_size_;
 };
 } // game_ui
 

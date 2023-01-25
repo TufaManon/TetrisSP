@@ -18,28 +18,20 @@
 
 #include "index-ui.h"
 #include "selection-bar.h"
-#include "resource-manager.h"
 
 namespace tetris_sp::game::ui::index_ui {
-void IndexUI::HandleInput(SDL_Event &event) {
-  for (const auto &widget : widgets_) {
-    widget->HandleInput(event);
-  }
-}
-void IndexUI::ResetStatus() {
 
-}
 IndexUI::IndexUI() {
   constexpr SDL_Rect sdl_rect{600, 300, 400, 300};
-  auto *solo_bar = new SelectionBar("solo", sdl_rect);
-  solo_bar->OnClick([]() -> void {
-    SDL_Log("click solo");
+  auto *solo_bar = new SelectionBar("solo_", sdl_rect);
+  solo_bar->OnClick([this]() -> void {
+    request::Request req{};
+    req.type = UI_SWITCH_REQUEST;
+    req.ui_switch_request.reset = true;
+    req.ui_switch_request.timestamp = SDL_GetTicks64();
+    SendRequest(req);
   });
   widgets_.push_back(solo_bar);
 }
-IndexUI::~IndexUI() {
-  for (const auto &item : widgets_) {
-    delete item;
-  }
-}
+
 } // index_ui

@@ -20,11 +20,8 @@
 
 #include "color/argb.h"
 #include "resource-manager.h"
-namespace tetris_sp {
-namespace game {
-namespace ui {
-namespace index_ui {
-void SelectionBar::Render() {
+namespace tetris_sp::game::ui::index_ui {
+void SelectionBar::Render() const {
   int w, h = 0;
   SDL_Renderer *renderer = ResourceManager::renderer_;
   SDL_QueryTexture(font_texture_, nullptr, nullptr, &w, &h);
@@ -39,7 +36,7 @@ void SelectionBar::Render() {
 void SelectionBar::OnClick(const std::function<void(void)> &callback) {
   callback_ = callback;
 }
-SelectionBar::SelectionBar(const char *txt, const SDL_Rect rect)
+SelectionBar::SelectionBar(const char *txt, const SDL_Rect &rect)
     : rect_(rect), txt_(txt) {
   TTF_Font *font = ResourceManager::GetFont("mini_pixel-7.ttf");
   SDL_Renderer *renderer = ResourceManager::renderer_;
@@ -57,7 +54,7 @@ void SelectionBar::HandleInput(SDL_Event &event) {
   }
 }
 SelectionBar::~SelectionBar() { SDL_DestroyTexture(font_texture_); }
-}  // namespace index_ui
-}  // namespace ui
-}  // namespace game
+void SelectionBar::Update(uint64_t delay) {
+
+}
 }  // namespace tetris_sp

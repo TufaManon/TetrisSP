@@ -17,12 +17,28 @@
 //
 
 #include "standard-game-ui.h"
+#include "matrix.h"
 
 namespace tetris_sp::game::game_ui {
-void StandardGameUI::HandleInput(SDL_Event &event) {
-
+StandardGameUI::StandardGameUI() {
+  auto *matrix = new Matrix(32);
+  matrix_ = matrix;
+  widgets_.push_back(matrix);
 }
-void StandardGameUI::ResetStatus() {
-
+void StandardGameUI::HandleInput(SDL_Event &event) {
+  SimpleUI::HandleInput(event);
+}
+void StandardGameUI::Render() const {
+  SimpleUI::Render();
+}
+void StandardGameUI::Update(uint64_t delay) {
+  SimpleUI::Update(delay);
+  request::Request req{};
+  req.type = MATRIX_RENDER_REQUEST;
+  if (sender_) {
+    response::Response *resp = sender_(req);
+    if (matrix_ != nullptr && resp != nullptr)
+      matrix_->matrix_render_response_ = resp->matrix_render_response;
+  }
 }
 } // game_ui

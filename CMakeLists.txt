@@ -16,7 +16,6 @@ add_subdirectory(game)
 include(cmake/sdl.cmake)
 
 target_link_libraries(TetrisSP TetrisSP-Game)
-
 # copy the resources
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME}
 	POST_BUILD

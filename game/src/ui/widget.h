@@ -26,8 +26,9 @@ class Widget {
 
  public:
   virtual ~Widget() = default;
-  virtual void Render() = 0;
+  virtual void Render() const = 0;
   virtual void HandleInput(SDL_Event &event) = 0;
+  virtual void Update(uint64_t delay) = 0;
 };
 
 } // ui

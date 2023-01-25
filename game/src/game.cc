@@ -17,29 +17,31 @@
 //
 
 #include "game.h"
-
 #include <SDL.h>
 
 #include "resource-manager.h"
+#include "ui/widget.h"
 #include "ui/controller/ui-controller.h"
 
-namespace tetris_sp {
-namespace game {
+namespace tetris_sp::game {
+uint64_t Game::current_time_ = 0;
 
-void Game::Init() { ResourceManager::Init(); }
-void Game::Run() {
-  bool quit_flag = false;
-  ui::controller::UIController controller;
-  SDL_Event event;
-  while (!quit_flag) {
+void Game::Begin() {
+  ResourceManager::Init();
+  ui::Widget *widget = new ui::controller::UIController();
+  bool quit = false;
+  while (!quit) {
+    SDL_Event event;
     while (SDL_PollEvent(&event) == 1) {
-      if (event.type == SDL_QUIT)
-        quit_flag = true;
-      else
-        controller.HandleInput(event);
+      if (event.type == SDL_QUIT) quit = true;
+      else widget->HandleInput(event);
     }
-    controller.Render();
+    const uint64_t time = SDL_GetTicks64();
+    const uint64_t delay = time - current_time_;
+    current_time_ = time;
+    widget->Update(delay);
+    widget->Render();
   }
+  ResourceManager::Close();
 }
-}  // namespace game
-}  // namespace tetris_sp
+} // namespace tetris_sp

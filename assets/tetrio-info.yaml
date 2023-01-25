@@ -1,0 +1,6 @@
+size: 96
+w: 5
+color-map:
+  {
+    red: 0 , orange: 1, yellow: 2, green: 3, blue: 5, light-blue: 4, violet: 6
+  }

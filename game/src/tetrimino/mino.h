@@ -13,18 +13,31 @@
 //    limitations under the License.
 
 //
-// Created by Maynard Gray on 2023/1/18.
+// Created by Tufa Manon on 2023/1/22.
 //
 
-#ifndef TETRIS_SP_SRC_GAME_GAME_H_
-#define TETRIS_SP_SRC_GAME_GAME_H_
-#include <cinttypes>
-namespace tetris_sp::game {
-class Game {
- private:
-  static uint64_t current_time_;
- public:
-  static void Begin();
+#ifndef TETRISSP_GAME_SRC_TETRIMINO_MINO_H_
+#define TETRISSP_GAME_SRC_TETRIMINO_MINO_H_
+
+namespace tetris_sp::game::tetrimino {
+enum Color {
+  RED,
+  ORANGE,
+  YELLOW,
+  GREEN,
+  LIGHT_BLUE,
+  BLUE,
+  VIOLET,
 };
-}
-#endif //TETRIS_SP_SRC_GAME_GAME_H_
+
+struct Mino {
+  int x, y;
+  Color color;
+  bool is_ghost;
+  bool is_blinking;
+  bool is_flash_once;
+};
+
+} // tetrimino
+
+#endif //TETRISSP_GAME_SRC_TETRIMINO_MINO_H_

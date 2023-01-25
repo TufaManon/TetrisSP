@@ -13,33 +13,31 @@
 //    limitations under the License.
 
 //
-// Created by TufaManon on 2023/1/19.
+// Created by Tufa Manon on 2023/1/21.
 //
 
-#ifndef TETRISSP_GAME_SRC_UI_CONTROLLER_UI_CONTROLLER_H_
-#define TETRISSP_GAME_SRC_UI_CONTROLLER_UI_CONTROLLER_H_
-#include "ui/ui.h"
-#include "server/server.h"
+#ifndef TETRISSP_GAME_SRC_SDL_TEXTURE_H_
+#define TETRISSP_GAME_SRC_SDL_TEXTURE_H_
+#include <SDL.h>
+namespace tetris_sp::game::sdl {
 
-namespace tetris_sp::game::ui::controller {
-
-class UIController : public Widget {
+class Texture {
  public:
-  explicit UIController();
-  ~UIController() override;
-  void Render() const override;
-  void HandleInput(SDL_Event &event) override;
+  explicit Texture(SDL_Texture *src);
+  explicit Texture(SDL_Texture *src, const SDL_Rect &rect);
+  void CopyTo(SDL_Rect *d_rect, SDL_Texture *target);
+  void CopyTo(SDL_Texture *target);
+  void SetRect(const SDL_Rect &rect);
+  int h_, w_;
+  int x_, y_;
+  double scale_h_, scale_w_;
+  int center_x_, center_y;
  private:
-  void Update(uint64_t delay) override;
- private:
-
-  UI *ui_;
-  UI *index_;
-  UI *solo_;
-  server::Server *server_;
-  response::Response *single_game_response;
+  SDL_Texture *src_;
+  SDL_Rect rect_;
+  bool set_rect_;
 };
 
-} // controller
+} // sdl
 
-#endif //TETRISSP_GAME_SRC_UI_CONTROLLER_UI_CONTROLLER_H_
+#endif //TETRISSP_GAME_SRC_SDL_TEXTURE_H_

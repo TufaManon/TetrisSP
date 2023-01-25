@@ -13,40 +13,27 @@
 //    limitations under the License.
 
 //
-// Created by Tufa Manon on 2023/1/19.
+// Created by Tufa Manon on 2023/1/20.
 //
-
-#ifndef TETRISSP_GAME_SRC_UI_INDEX_UI_SELECTION_BAR_H_
-#define TETRISSP_GAME_SRC_UI_INDEX_UI_SELECTION_BAR_H_
-
-#include "ui/widget.h"
-#include <functional>
-#include <string>
-#include <SDL.h>
-
-namespace tetris_sp {
-namespace game {
-namespace ui {
-namespace index_ui {
-
-class SelectionBar : public Widget {
+#include <vector>
+#include "ui.h"
+#ifndef TETRISSP_GAME_SRC_UI_SIMPLE_UI_H_
+#define TETRISSP_GAME_SRC_UI_SIMPLE_UI_H_
+namespace tetris_sp::game::ui {
+class SimpleUI : public UI {
  public:
-  SDL_Rect rect_;
-  explicit SelectionBar(const char *txt, const SDL_Rect &rect);
-  ~SelectionBar() override;
+  void SetRequestSender(const RequestSender &sender) override;
+  void ResetStatus() override;
+  ~SimpleUI() override;
   void Render() const override;
   void HandleInput(SDL_Event &event) override;
   void Update(uint64_t delay) override;
-  virtual void OnClick(const std::function<void(void)> &callback);
- private:
-  SDL_Texture *font_texture_;
-  std::function<void(void)> callback_;
-  std::string txt_;
+ protected:
+  RequestSender sender_;
+  std::vector<Widget *> widgets_;
+  response::Response *SendRequest(const request::Request &request);
 };
 
-} // tetris_sp
-} // game
-} // ui
-} // index_ui
+} // tetris_sp::game::ui
 
-#endif //TETRISSP_GAME_SRC_UI_INDEX_UI_SELECTION_BAR_H_
+#endif //TETRISSP_GAME_SRC_UI_SIMPLE_UI_H_

@@ -20,21 +20,22 @@
 #define TETRIS_SP_GAME_SRC_REQUEST_REQUEST_H_
 #include <cstdint>
 
+enum RequestType {
+  UI_SWITCH_REQUEST,
+  MATRIX_RENDER_REQUEST
+};
+
 namespace tetris_sp::game::request {
 
 struct UISwitchRequest {
-  uint32_t type;
+  RequestType type;
   uint64_t timestamp;
-  bool result;
+  bool reset;
 };
 
 union Request {
-  uint32_t type;
+  RequestType type;
   UISwitchRequest ui_switch_request;
-};
-
-enum RequestType {
-  UI_SWITCH_REQUEST,
 };
 
 } // response

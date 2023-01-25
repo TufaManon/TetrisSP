@@ -18,14 +18,20 @@
 
 #ifndef TETRISSP_GAME_SRC_UI_GAME_UI_STANDARD_GAME_UI_H_
 #define TETRISSP_GAME_SRC_UI_GAME_UI_STANDARD_GAME_UI_H_
-#include "ui/ui.h"
+#include "ui/simple-ui.h"
+#include "matrix.h"
+#include "server/single-game-service.h"
 namespace tetris_sp::game::game_ui {
 
-class StandardGameUI : public ui::UI {
+class StandardGameUI : public ui::SimpleUI {
  public:
+  explicit StandardGameUI();
   ~StandardGameUI() override = default;
   void HandleInput(SDL_Event &event) override;
-  void ResetStatus() override;
+  void Render() const override;
+  void Update(uint64_t delay) override;
+ private:
+  Matrix *matrix_ = nullptr;
 };
 
 } // game_ui
