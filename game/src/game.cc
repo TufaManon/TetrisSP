@@ -42,6 +42,7 @@ void Game::Begin() {
     widget->Update(delay);
     widget->Render();
   }
+  delete widget;
   ResourceManager::Close();
 }
 } // namespace tetris_sp

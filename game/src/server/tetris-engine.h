@@ -96,7 +96,7 @@ class TetrisEngine {
   bool is_hard_drop_{false};
   bool stop_count_time_{false};
   bool is_hold_act{false};
-  bool cen_hold{true};
+  bool can_hold{true};
 };
 
 } // server

@@ -252,6 +252,7 @@ void TetrisEngine::Update() {
   current_tick_ = ticks_64;
 }
 bool TetrisEngine::Move(bool right) {
+  if (phase_ != FALLING_PHASE && phase_ != LOCK_PHASE) return false;
   std::array<utils::Point, 4> absolute_pos = GetMinosAbsolutePos(*activity_tetrimino_);
   for (auto &item : absolute_pos) {
     item.x += right ? 1 : -1;
@@ -345,9 +346,9 @@ bool TetrisEngine::HardDrop() {
 }
 bool TetrisEngine::Hold() {
   if (phase_ != FALLING_PHASE && phase_ != LOCK_PHASE) return false;
-  if (cen_hold) {
+  if (can_hold) {
     is_hold_act = true;
-    cen_hold = false;
+    can_hold = false;
     return true;
   }
   return false;
