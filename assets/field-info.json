@@ -1,0 +1,25 @@
+{
+    "info" : {
+        "width": 880,
+        "height": 1080,
+        "cell size" : 48
+    },
+    "hold queue": {
+        "width": 128,
+        "height": 149,
+        "x":62,
+        "y":84
+    },
+    "next queue": {
+        "width": 128,
+        "height": 542,
+        "x":690,
+        "y":83
+    },
+    "playing field": {
+        "width": 480,
+        "height": 960,
+        "x":200,
+        "y":60
+    }
+}
